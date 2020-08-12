@@ -11,6 +11,8 @@ import UIKit
 @objc
 public protocol VADayViewAppearanceDelegate: class {
     @objc optional func font(for state: VADayState) -> UIFont
+    @objc optional func todayBorderColor() -> UIColor
+    @objc optional func todayBorderWidth() -> CGFloat
     @objc optional func textColor(for state: VADayState) -> UIColor
     @objc optional func textBackgroundColor(for state: VADayState) -> UIColor
     @objc optional func backgroundColor(for state: VADayState) -> UIColor
@@ -95,17 +97,24 @@ class VADayView: UIView {
     }
     
     private func setState(_ state: VADayState) {
-        if dayViewAppearanceDelegate?.shape?() == .circle && state == .selected {
+        
+        if day.isToday {
+            dateLabel.layer.borderWidth = dayViewAppearanceDelegate?.todayBorderWidth?() ?? 0
+            dateLabel.layer.borderColor = dayViewAppearanceDelegate?.todayBorderColor?().cgColor
+        }
+        
+        if dayViewAppearanceDelegate?.shape?() == .circle && ( state == .selected || day.isToday) {
             dateLabel.clipsToBounds = true
             dateLabel.layer.cornerRadius = dateLabel.frame.height / 2
         }
         
-        backgroundColor = dayViewAppearanceDelegate?.backgroundColor?(for: state) ?? backgroundColor
-        layer.borderColor = dayViewAppearanceDelegate?.borderColor?(for: state).cgColor ?? layer.borderColor
-        layer.borderWidth = dayViewAppearanceDelegate?.borderWidth?(for: state) ?? dateLabel.layer.borderWidth
+        backgroundColor = dayViewAppearanceDelegate?.backgroundColor?(for: state)
+        layer.borderColor = dayViewAppearanceDelegate?.borderColor?(for: state).cgColor
+        layer.borderWidth = dayViewAppearanceDelegate?.borderWidth?(for: state) ?? 0
+
         
-        dateLabel.textColor = dayViewAppearanceDelegate?.textColor?(for: state) ?? dateLabel.textColor
-        dateLabel.backgroundColor = dayViewAppearanceDelegate?.textBackgroundColor?(for: state) ?? dateLabel.backgroundColor
+        dateLabel.textColor = dayViewAppearanceDelegate?.textColor?(for: state)
+        dateLabel.backgroundColor = dayViewAppearanceDelegate?.textBackgroundColor?(for: state)
         
         updateSupplementaryViews()
     }

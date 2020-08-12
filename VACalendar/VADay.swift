@@ -47,6 +47,10 @@ class VADay {
         return state == .available ? .selected : .available
     }
     
+    var isToday: Bool {
+        return calendar.isDateInToday(date)
+    }
+
     var isSelected: Bool {
         return state == .selected
     }

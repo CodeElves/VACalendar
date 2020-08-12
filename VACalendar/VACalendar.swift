@@ -12,6 +12,10 @@ protocol VACalendarDelegate: class {
     func selectedDaysDidUpdate(_ days: [VADay])
 }
 
+public protocol VACalendarMonthDelegate: class {
+    func monthDidChange(_ currentMonth: Date)
+}
+
 public enum DaysAvailability {
     case all
     case some([Date])
@@ -32,19 +36,16 @@ public class VACalendar {
     }
     
     public init(
-        startDate: Date? = nil,
-        endDate: Date? = nil,
-        selectedDate: Date? = Date(),
-        calendar: Calendar = Calendar.current) {
+        startDate: Date,
+        endDate: Date,
+        selectedDates: [Date] = [],
+        calendar: Calendar = Calendar.current
+    ) {
         self.calendar = calendar
-        
-        if let selectedDate = selectedDate {
-            let day = VADay(date: selectedDate, state: .selected, calendar: calendar)
-            selectedDays = [day]
+        if !selectedDates.isEmpty {
+            let days = selectedDates.map { VADay(date: $0, state: .selected, calendar: calendar) }
+            selectedDays = days
         }
-        
-        let startDate = startDate ?? calendar.date(byAdding: .year, value: -1, to: Date())!
-        let endDate = endDate ?? calendar.date(byAdding: .year, value: 1, to: Date())!
         months = generateMonths(from: startDate, endDate: endDate)
     }
     

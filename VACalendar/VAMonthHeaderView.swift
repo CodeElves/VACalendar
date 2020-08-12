@@ -5,6 +5,12 @@ public protocol VAMonthHeaderViewDelegate: class {
     func didTapPreviousMonth()
 }
 
+public enum VAMonthHeaderViewContentAlignment: Int {
+    case left = 0   // without prev/next buttons
+    case center // with prev/next buttons
+    case right  // without prev/next buttons
+}
+
 public struct VAMonthHeaderViewAppearance {
     
     let monthFont: UIFont
@@ -13,7 +19,8 @@ public struct VAMonthHeaderViewAppearance {
     let previousButtonImage: UIImage
     let nextButtonImage: UIImage
     let dateFormatter: DateFormatter
-    
+    let contentAlignment: VAMonthHeaderViewContentAlignment
+
     static public let defaultFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM"
@@ -26,13 +33,16 @@ public struct VAMonthHeaderViewAppearance {
         monthTextWidth: CGFloat = 150,
         previousButtonImage: UIImage = UIImage(),
         nextButtonImage: UIImage = UIImage(),
-        dateFormatter: DateFormatter = VAMonthHeaderViewAppearance.defaultFormatter) {
+        dateFormatter: DateFormatter = VAMonthHeaderViewAppearance.defaultFormatter,
+        contentAlignment: VAMonthHeaderViewContentAlignment = .center
+    ) {
         self.monthFont = monthFont
         self.monthTextColor = monthTextColor
         self.monthTextWidth = monthTextWidth
         self.previousButtonImage = previousButtonImage
         self.nextButtonImage = nextButtonImage
         self.dateFormatter = dateFormatter
+        self.contentAlignment = contentAlignment
     }
     
 }
@@ -69,8 +79,12 @@ public class VAMonthHeaderView: UIView {
         super.layoutSubviews()
         
         let buttonWidth: CGFloat = 50.0
-        monthLabel.frame = CGRect(x: 0, y: 0, width: appearance.monthTextWidth, height: frame.height)
-        monthLabel.center.x = center.x
+        let monthLabelOriginX: CGFloat = appearance.contentAlignment == .right ? frame.width - appearance.monthTextWidth : 0
+        monthLabel.frame = CGRect(x: monthLabelOriginX, y: 0, width: appearance.monthTextWidth, height: frame.height)
+        if appearance.contentAlignment == .center {
+            monthLabel.center.x = center.x
+        }
+        
         previousButton.frame = CGRect(x: monthLabel.frame.minX - buttonWidth, y: 0, width: buttonWidth, height: frame.height)
         nextButton.frame = CGRect(x: monthLabel.frame.maxX, y: 0, width: buttonWidth, height: frame.height)
     }
@@ -80,19 +94,19 @@ public class VAMonthHeaderView: UIView {
         
         backgroundColor = .white
         monthLabel.font = appearance.monthFont
-        monthLabel.textAlignment = .center
+        monthLabel.textAlignment = NSTextAlignment(rawValue: appearance.contentAlignment.rawValue) ?? .center
         monthLabel.textColor = appearance.monthTextColor
-        
-        previousButton.setImage(appearance.previousButtonImage, for: .normal)
-        previousButton.addTarget(self, action: #selector(didTapPrevious(_:)), for: .touchUpInside)
-        
-        nextButton.setImage(appearance.nextButtonImage, for: .normal)
-        nextButton.addTarget(self, action: #selector(didTapNext(_:)), for: .touchUpInside)
-        
         addSubview(monthLabel)
-        addSubview(previousButton)
-        addSubview(nextButton)
         
+        if appearance.contentAlignment == .center {
+            previousButton.setImage(appearance.previousButtonImage, for: .normal)
+            previousButton.addTarget(self, action: #selector(didTapPrevious(_:)), for: .touchUpInside)
+            nextButton.setImage(appearance.nextButtonImage, for: .normal)
+            nextButton.addTarget(self, action: #selector(didTapNext(_:)), for: .touchUpInside)
+            addSubview(previousButton)
+            addSubview(nextButton)
+        }
+
         layoutSubviews()
     }
     
@@ -113,5 +127,4 @@ extension VAMonthHeaderView: VACalendarMonthDelegate {
     public func monthDidChange(_ currentMonth: Date) {
         monthLabel.text = dateFormatter.string(from: currentMonth)
     }
-    
 }

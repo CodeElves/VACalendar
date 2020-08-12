@@ -18,7 +18,6 @@
 		60086D7D204C712F002097E7 /* VAMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60086D70204C712E002097E7 /* VAMonth.swift */; };
 		60086D7E204C712F002097E7 /* VAWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60086D71204C712E002097E7 /* VAWeekView.swift */; };
 		60086D7F204C712F002097E7 /* VAFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60086D72204C712E002097E7 /* VAFormatters.swift */; };
-		60086D80204C712F002097E7 /* VACalendarMonthDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60086D73204C712E002097E7 /* VACalendarMonthDelegate.swift */; };
 		60086D81204C712F002097E7 /* VAMonthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60086D74204C712F002097E7 /* VAMonthView.swift */; };
 		60086D82204C712F002097E7 /* VAMonthHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60086D75204C712F002097E7 /* VAMonthHeaderView.swift */; };
 /* End PBXBuildFile section */
@@ -37,7 +36,6 @@
 		60086D70204C712E002097E7 /* VAMonth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VAMonth.swift; sourceTree = "<group>"; };
 		60086D71204C712E002097E7 /* VAWeekView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VAWeekView.swift; sourceTree = "<group>"; };
 		60086D72204C712E002097E7 /* VAFormatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VAFormatters.swift; sourceTree = "<group>"; };
-		60086D73204C712E002097E7 /* VACalendarMonthDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VACalendarMonthDelegate.swift; sourceTree = "<group>"; };
 		60086D74204C712F002097E7 /* VAMonthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VAMonthView.swift; sourceTree = "<group>"; };
 		60086D75204C712F002097E7 /* VAMonthHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VAMonthHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,7 +72,6 @@
 			children = (
 				60086D60204C707A002097E7 /* VACalendar.h */,
 				60086D6D204C712E002097E7 /* VACalendar.swift */,
-				60086D73204C712E002097E7 /* VACalendarMonthDelegate.swift */,
 				60086D6C204C712E002097E7 /* VACalendarView.swift */,
 				60086D69204C712E002097E7 /* VADay.swift */,
 				60086D6B204C712E002097E7 /* VADayView.swift */,
@@ -174,7 +171,6 @@
 				60086D78204C712F002097E7 /* VADayView.swift in Sources */,
 				60086D7B204C712F002097E7 /* VAWeekDaysView.swift in Sources */,
 				60086D7E204C712F002097E7 /* VAWeekView.swift in Sources */,
-				60086D80204C712F002097E7 /* VACalendarMonthDelegate.swift in Sources */,
 				60086D7A204C712F002097E7 /* VACalendar.swift in Sources */,
 				60086D7C204C712F002097E7 /* VAWeek.swift in Sources */,
 				60086D7D204C712F002097E7 /* VAMonth.swift in Sources */,

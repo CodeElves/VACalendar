@@ -57,12 +57,13 @@ public class VACalendarView: UIScrollView {
             return frame.width / CGFloat(numberDaysInWeek)
         }
     }
-    private var viewType: VACalendarViewType = .month
+    private var viewType: VACalendarViewType
     private var currentMonth: VAMonthView? {
         return getMonthView(with: contentOffset)
     }
     
-    public init(frame: CGRect, calendar: VACalendar) {
+    public init(frame: CGRect, calendar: VACalendar, viewType: VACalendarViewType = .month) {
+        self.viewType = viewType
         self.calendar = calendar
         
         super.init(frame: frame)
@@ -88,7 +89,7 @@ public class VACalendarView: UIScrollView {
             let x = contentOffset.x + frame.width
             guard x < contentSize.width else { return }
             
-            setContentOffset(CGPoint(x: x, y: 0), animated: false)
+            setContentOffset(CGPoint(x: x, y: 0), animated: true)
             drawVisibleMonth(with: contentOffset)
         case .vertical: break
         }
@@ -100,7 +101,7 @@ public class VACalendarView: UIScrollView {
             let x = contentOffset.x - frame.width
             guard x >= 0 else { return }
             
-            setContentOffset(CGPoint(x: x, y: 0), animated: false)
+            setContentOffset(CGPoint(x: x, y: 0), animated: true)
             drawVisibleMonth(with: contentOffset)
         case .vertical: break
         }
@@ -208,6 +209,10 @@ public class VACalendarView: UIScrollView {
             let inset = startMonth?.monthViewAppearanceDelegate?.leftInset?() ?? 0
             offset.x += weekOffset - inset
             setContentOffset(offset, animated: false)
+        }
+        
+        if let date = startMonth?.month.date {
+            monthDelegate?.monthDidChange(date)
         }
     }
     
